@@ -4,7 +4,7 @@ const { hashPassword, comparePassword } = require("../utils/encryptPassword");
 //to register new voter
 const signUpVoter = async (req, res) => {
   try {
-    //check uvc used or not
+    //check uvc is already used or not
     const uvc = await Uvc.find({ UVC: req.body.UVC }).toArray();
     console.log("uvcuvcuvcuvc:::", uvc);
     if (used.length && uvc.used) {

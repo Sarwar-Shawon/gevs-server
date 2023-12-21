@@ -24,5 +24,9 @@ const voterSchema = new mongoose.Schema({
   constituency_id: {
     type: Number,
   },
+  user_type: {
+    type: String,
+    default: "voter",
+  },
 });
 module.exports = mongoose.model("Voter", voterSchema);

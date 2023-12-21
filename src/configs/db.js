@@ -1,6 +1,6 @@
-const config = {
+const db = {
   url: process.env.MONGO_URL,
   options: { useNewUrlParser: true, useUnifiedTopology: true },
 };
 
-module.exports = config;
+module.exports = db;

@@ -1,5 +1,8 @@
+/*
+ * @copyRight by md sarwar hoshen.
+ */
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
+//
 const constituencySchema = new mongoose.Schema({
   consitituency_id: {
     type: Number,

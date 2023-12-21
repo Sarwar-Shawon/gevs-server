@@ -1,11 +1,15 @@
+/*
+ * @copyRight by md sarwar hoshen.
+ */
 const express = require("express");
 const app = express();
 require("dotenv").config();
 const cors = require("cors");
 const mongoConnection = require("./src/helpers/database-connection");
-const appRoutes = require("./routes");
+const appRoutes = require("./src/routes");
 app.use(cors());
 //app routes
+app.use(express.json());
 app.use("/api", appRoutes);
 //
 app.use((_, res) => {

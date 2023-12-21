@@ -1,5 +1,8 @@
+/*
+ * @copyRight by md sarwar hoshen.
+ */
 const Voter = require("../models/voter");
-const Uvc = require("../models/uvc_code");
+const Uvc = require("../models/uvc");
 const { hashPassword, comparePassword } = require("../utils/encryptPassword");
 //to register new voter
 const signUpVoter = async (req, res) => {
@@ -29,7 +32,7 @@ const signUpVoter = async (req, res) => {
     //save to db
     await voter.save();
     //return response
-    res.status(200).json({
+    return res.status(200).json({
       status: "success",
       message: "You've successfully registered as a new voter.",
     });
@@ -51,6 +54,7 @@ const login = async (req, res) => {
     res.send({ status: "err", message: err });
   }
 };
+
 //
 module.exports = {
   signUpVoter,

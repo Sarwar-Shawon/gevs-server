@@ -1,3 +1,6 @@
+/*
+ * @copyRight by md sarwar hoshen.
+ */
 var mongoose = require("mongoose");
 const db = require("../configs/db");
 async function mongooseConnection() {

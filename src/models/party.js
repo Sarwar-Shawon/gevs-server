@@ -1,5 +1,8 @@
+/*
+ * @copyRight by md sarwar hoshen.
+ */
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
+//
 const partySchema = new mongoose.Schema({
   party_id: {
     type: Number,

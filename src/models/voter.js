@@ -1,5 +1,8 @@
+/*
+ * @copyRight by md sarwar hoshen.
+ */
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
+//
 const voterSchema = new mongoose.Schema({
   voter_id: {
     type: String,

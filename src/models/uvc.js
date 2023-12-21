@@ -1,6 +1,9 @@
+/*
+ * @copyRight by md sarwar hoshen.
+ */
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
-const partySchema = new mongoose.Schema({
+//
+const UvcSchema = new mongoose.Schema({
   UVC: {
     type: String,
     required: true,
@@ -11,4 +14,4 @@ const partySchema = new mongoose.Schema({
     default: 0,
   },
 });
-module.exports = mongoose.model("Party", partySchema);
+module.exports = mongoose.model("Uvc", UvcSchema);

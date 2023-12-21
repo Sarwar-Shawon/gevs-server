@@ -1,20 +1,28 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const userSchema = new mongoose.Schema({
-  email: {
+const voterSchema = new mongoose.Schema({
+  voter_id: {
     type: String,
-    unique: true,
     required: true,
+    unique: true,
+  },
+  full_name: {
+    type: String,
+    required: true,
+  },
+  DOB: {
+    type: String,
   },
   password: {
     type: String,
     required: true,
   },
-  username: {
+  UVC: {
     type: String,
+    required: true,
   },
-  creation_date: {
-    type: String,
+  constituency_id: {
+    type: Number,
   },
 });
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("Voter", voterSchema);

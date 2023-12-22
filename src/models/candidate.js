@@ -17,8 +17,16 @@ const candidateSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
-  consitituency_id: {
+  party_name: {
+    type: String,
+    required: true,
+  },
+  constituency_id: {
     type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
+  constituency_name: {
+    type: String,
     required: true,
   },
   vote_count: {
@@ -27,3 +35,13 @@ const candidateSchema = new mongoose.Schema({
   },
 });
 module.exports = mongoose.model("Candidate", candidateSchema);
+//
+
+// {
+//   "candidate": "Md Sarwar",
+//  "party_id": "6585d70279483284b21a2781",
+//  "party_name": "Blue Party",
+//  "constituency_id":"6585d6b979483284b21a2777",
+//  "constituency_name": "Shangri-la-Town",
+//  "vote_count": 0
+// }

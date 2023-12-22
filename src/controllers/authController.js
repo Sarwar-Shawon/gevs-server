@@ -10,8 +10,18 @@ const signUpVoter = async (req, res) => {
   try {
     console.log("params:", req.body);
     //check uvc is already used or not
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
     const uvc = await Uvc.findOne({ UVC: req.body.UVC });
-    if (uvc && uvc.used) {
+    if (!uvc) {
+      return res.status(404).json({
+        status: "err",
+        message: "The provided UVC does not exist.",
+      });
+    }
+    if (uvc.used) {
       return res.status(200).json({
         status: "uvc exists",
         message:
@@ -57,8 +67,9 @@ const login = async (req, res) => {
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
-    const voter = await Voter.findOne({ email: req.body.voter_id });
-    console.log("voter::", voter);
+    // console.log(req.body);
+    const voter = await Voter.findOne({ voter_id: req.body.voter_id });
+    // console.log("voter::", voter);
     if (voter) {
       const matchPass = await comparePassword(
         req.body.password,
@@ -71,7 +82,9 @@ const login = async (req, res) => {
           message: "You've successfully signed in",
         });
       } else {
-        return res.send({ status: "err", message: "password doesn't match" });
+        res
+          .status(200)
+          .json({ status: "err", message: "password doesn't match" });
       }
     } else {
       return res.status(200).json({

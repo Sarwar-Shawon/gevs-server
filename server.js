@@ -10,7 +10,7 @@ const appRoutes = require("./src/routes");
 app.use(cors());
 //app routes
 app.use(express.json());
-app.use("/api", appRoutes);
+app.use("/gevs", appRoutes);
 //
 app.use((_, res) => {
   res.send({

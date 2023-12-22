@@ -19,5 +19,9 @@ router.use("/party", partyRouter);
 // candidate routes
 const candidateRouter = require("./candidateRoutes");
 router.use("/candidate", candidateRouter);
+// get results
+const resultRouter = require("./resultRoutes");
+router.use("/result", resultRouter);
 
+//
 module.exports = router;

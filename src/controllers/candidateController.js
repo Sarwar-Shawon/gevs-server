@@ -14,7 +14,9 @@ const addCandidate = async (req, res) => {
       //   },
       candidate: req.body.candidate,
       party_id: req.body.party_id,
-      consitituency_id: req.body.consitituency_id,
+      party_name: req.body.party_name,
+      constituency_id: req.body.constituency_id,
+      constituency_name: req.body.constituency_name,
       vote_count: 0,
     });
     //save to db

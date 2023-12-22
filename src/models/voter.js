@@ -8,6 +8,7 @@ const voterSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   },
   full_name: {
     type: String,
@@ -25,7 +26,7 @@ const voterSchema = new mongoose.Schema({
     required: true,
   },
   constituency_id: {
-    type: Number,
+    type: mongoose.Schema.Types.ObjectId,
   },
   user_type: {
     type: String,

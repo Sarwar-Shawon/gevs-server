@@ -16,5 +16,8 @@ router.use("/constituency", constituencyRouter);
 // party routes
 const partyRouter = require("./partyRoutes");
 router.use("/party", partyRouter);
+// candidate routes
+const candidateRouter = require("./candidateRoutes");
+router.use("/candidate", candidateRouter);
 
 module.exports = router;

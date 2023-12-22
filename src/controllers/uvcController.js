@@ -27,6 +27,28 @@ const addUvc = async (req, res) => {
   }
 };
 //
+// add new uvc code
+const getUvc = async (req, res) => {
+  try {
+    const uvc = await Uvc.findOne({ UVC: req.query.UVC });
+    console.log("uvc:::", uvc);
+    if (uvc) {
+      return res.status(200).json({
+        status: "success",
+        data: uvc,
+      });
+    }
+    return res.status(200).json({
+      status: "not found",
+      message: "uvc not found",
+    });
+  } catch (err) {
+    //return err
+    res.send({ status: "err", message: err });
+  }
+};
+//
 module.exports = {
   addUvc,
+  getUvc,
 };

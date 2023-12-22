@@ -6,7 +6,7 @@ const Candidate = require("../models/candidate");
 const addCandidate = async (req, res) => {
   try {
     console.log("req.body::", req.body);
-    const Candidate = new Candidate({
+    const candidate = new Candidate({
       //   canid: {
       //     type: Number,
       //     unique: true,
@@ -18,7 +18,7 @@ const addCandidate = async (req, res) => {
       vote_count: 0,
     });
     //save to db
-    await Candidate.save();
+    await candidate.save();
     //return response
     return res.status(200).json({
       status: "success",
@@ -26,6 +26,7 @@ const addCandidate = async (req, res) => {
     });
   } catch (err) {
     //return err
+    console.error("err", err);
     res.send({ status: "err", message: err });
   }
 };

@@ -3,14 +3,15 @@
  */
 const Voter = require("../models/voter");
 const Uvc = require("../models/uvc");
+const { validationResult } = require("express-validator");
 const { hashPassword, comparePassword } = require("../utils/encryptPassword");
 //to register new voter
 const signUpVoter = async (req, res) => {
   try {
+    console.log("params:", req.body);
     //check uvc is already used or not
     const uvc = await Uvc.findOne({ UVC: req.body.UVC });
-    console.log("uvcuvcuvcuvc:::", uvc);
-    if (used.length && uvc.used) {
+    if (uvc && uvc.used) {
       return res.status(200).json({
         status: "uvc exists",
         message:
@@ -19,8 +20,9 @@ const signUpVoter = async (req, res) => {
     }
     //hash password
     const hash_password = await hashPassword(req.body.password);
+    console.log("hash_password", hash_password);
     //
-    const voter = await new User({
+    const voter = new Voter({
       voter_id: req.body.voter_id,
       full_name: req.body.full_name,
       DOB: req.body.DOB,
@@ -31,6 +33,9 @@ const signUpVoter = async (req, res) => {
     });
     //save to db
     await voter.save();
+    //update uvc
+    uvc.used = 1;
+    await uvc.save();
     //return response
     return res.status(200).json({
       status: "success",
@@ -41,17 +46,47 @@ const signUpVoter = async (req, res) => {
     if (err.code == "11000") {
       res.send({ status: "exists", message: "User Email Already Exists." });
     } else {
-      res.send({ status: "err", message: err });
+      res.send({ status: "err", message: err?.message });
     }
   }
 };
 // to sign in
 const login = async (req, res) => {
   try {
-    const voter = await Voter.find({ email: req.body.voter_id });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    const voter = await Voter.findOne({ email: req.body.voter_id });
     console.log("voter::", voter);
+    if (voter) {
+      const matchPass = await comparePassword(
+        req.body.password,
+        voter.password
+      );
+      console.log("matchPass", matchPass);
+      if (matchPass) {
+        return res.status(200).json({
+          status: "success",
+          message: "You've successfully signed in",
+        });
+      } else {
+        return res.send({ status: "err", message: "password doesn't match" });
+      }
+    } else {
+      return res.status(200).json({
+        status: "err",
+        message: "No user found.",
+      });
+    }
   } catch (err) {
-    res.send({ status: "err", message: err });
+    res.status(500).json({
+      status: "err",
+      message:
+        err?.message === "data and hash arguments required"
+          ? "Password doesn't match."
+          : err?.message,
+    });
   }
 };
 

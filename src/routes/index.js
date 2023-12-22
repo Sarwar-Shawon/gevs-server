@@ -10,5 +10,11 @@ router.use("/auth", authRouter);
 // uvc routes
 const uvcCodeRouter = require("./uvcRoutes");
 router.use("/uvc", uvcCodeRouter);
+// constituency routes
+const constituencyRouter = require("./constituencyRoutes");
+router.use("/constituency", constituencyRouter);
+// party routes
+const partyRouter = require("./partyRoutes");
+router.use("/party", partyRouter);
 
 module.exports = router;

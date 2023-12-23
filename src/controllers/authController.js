@@ -40,6 +40,7 @@ const signUpVoter = async (req, res) => {
       UVC: req.body.UVC,
       constituency_id: req.body.constituency_id,
       user_type: req.body.user_type || "voter",
+      provide_vote: req.body.provide_vote || 0,
     });
     //save to db
     await voter.save();

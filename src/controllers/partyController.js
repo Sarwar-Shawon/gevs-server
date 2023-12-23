@@ -21,6 +21,17 @@ const addParty = async (req, res) => {
   }
 };
 //
+const getAllParty = async (req, res) => {
+  try {
+    const allParties = await Party.find({}).toArray();
+    res.status(200).json({ status: "success", data: allParties });
+  } catch (err) {
+    //return err
+    res.send({ status: "err", message: err });
+  }
+};
+//
 module.exports = {
   addParty,
+  getAllParty,
 };

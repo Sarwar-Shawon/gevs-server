@@ -32,5 +32,9 @@ const voterSchema = new mongoose.Schema({
     type: String,
     default: "voter",
   },
+  provide_vote:{
+    type: Number,
+    default: 0
+  }
 });
 module.exports = mongoose.model("Voter", voterSchema);

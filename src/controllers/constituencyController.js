@@ -47,7 +47,18 @@ const getAllCandidatesByConstituency = async (req, res) => {
   }
 };
 //
+const getAllConstituency = async (req, res) => {
+  try {
+    const allConstituency = await Constituency.find({}).toArray();
+    res.status(200).json({ status: "success", data: allConstituency });
+  } catch (err) {
+    //return err
+    res.send({ status: "err", message: err });
+  }
+};
+//
 module.exports = {
   addConstituency,
   getAllCandidatesByConstituency,
+  getAllConstituency,
 };

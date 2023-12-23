@@ -2,6 +2,8 @@
  * @copyRight by md sarwar hoshen.
  */
 const Candidate = require("../models/candidate");
+const Voter = require("../models/voter");
+const { ObjectId } = require("mongodb");
 // add new Candidate code
 const addCandidate = async (req, res) => {
   try {
@@ -33,6 +35,44 @@ const addCandidate = async (req, res) => {
   }
 };
 //
+const addVoteToCandidate = async (req, res) => {
+  try {
+    //check voter has already provided vote or not
+    const voter = await Voter.findOne({ voter_id: req.body.voter_id });
+    if (voter) {
+      if (!voter.provide_vote) {
+        const candidate = await Candidate.findOne({
+          _id: new ObjectId(req.body.candidate_id),
+        });
+        if (candidate) {
+          candidate.vote_count += 1;
+          await candidate.save();
+          return res.status(200).json({
+            status: "success",
+            message: "You've successfully provided your vote..",
+          });
+        } else {
+          return res.status(200).json({
+            status: "err",
+            message: "No candidates found.",
+          });
+        }
+      } else {
+        return res.status(200).json({
+          status: "err",
+          message:
+            "You've already provided your vote so you can't provide any more.",
+        });
+      }
+    }
+  } catch (err) {
+    //return err
+    console.error("err", err);
+    res.send({ status: "err", message: err });
+  }
+};
+//
 module.exports = {
   addCandidate,
+  addVoteToCandidate,
 };

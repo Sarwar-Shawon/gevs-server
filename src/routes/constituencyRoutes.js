@@ -9,5 +9,6 @@ constituencyRouter.route("/add").post(constituencyController.addConstituency);
 constituencyRouter
   .route("/:constituency_name")
   .get(constituencyController.getAllCandidatesByConstituency);
+constituencyRouter.route("/all").get(constituencyController.getAllConstituency);
 
 module.exports = constituencyRouter;

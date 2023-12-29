@@ -9,7 +9,6 @@ const getVoteResult = async (req, res) => {
   try {
     // Get all candidates
     const candidates = await Candidate.find();
-
     // Group candidates by constituency
     const candidatesByConstituency = candidates.reduce((acc, candidate) => {
       const consId = new ObjectId(candidate.constituency_id).toString();
@@ -19,7 +18,7 @@ const getVoteResult = async (req, res) => {
       acc[consId].push(candidate);
       return acc;
     }, {});
-
+    console.log("candidatesByConstituency", candidatesByConstituency);
     // Calculate seats and vote count for each candidate in each constituency
     const seatsByConstituency = {};
     Object.entries(candidatesByConstituency).forEach(
@@ -44,6 +43,7 @@ const getVoteResult = async (req, res) => {
         seatsByConstituency[constituencyId] = seats;
       }
     );
+    console.log("candidatesByConstituency", candidatesByConstituency);
 
     // Calculate overall seats and vote count for each candidate
     const overallSeats = {};

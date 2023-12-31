@@ -10,19 +10,20 @@ const signUpVoter = async (req, res) => {
   try {
     console.log("params:", req.body);
     //check uvc is already used or not
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
+    // const errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //   return res.status(422).json({ errors: errors.array() });
+    // }
+    //
     const uvc = await Uvc.findOne({ UVC: req.body.UVC });
     if (!uvc) {
-      return res.status(404).json({
+      return res.send({
         status: "err",
         message: "The provided UVC does not exist.",
       });
     }
     if (uvc.used) {
-      return res.status(200).json({
+      return res.send({
         status: "uvc exists",
         message:
           "You need to use a new UVC because the given one has already been used.",
@@ -48,7 +49,7 @@ const signUpVoter = async (req, res) => {
     uvc.used = 1;
     await uvc.save();
     //return response
-    return res.status(200).json({
+    return res.send({
       status: "success",
       message: "You've successfully registered as a new voter.",
     });
@@ -64,10 +65,10 @@ const signUpVoter = async (req, res) => {
 // to sign in
 const login = async (req, res) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
+    // const errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //   return res.status(422).json({ errors: errors.array() });
+    // }
     // console.log(req.body);
     const voter = await Voter.findOne({ voter_id: req.body.voter_id });
     // console.log("voter::", voter);
@@ -78,23 +79,22 @@ const login = async (req, res) => {
       );
       console.log("matchPass", matchPass);
       if (matchPass) {
-        return res.status(200).json({
+        return res.send({
           status: "success",
           message: "You've successfully signed in",
+          data: voter.user_type,
         });
       } else {
-        res
-          .status(200)
-          .json({ status: "err", message: "password doesn't match" });
+        res.send({ status: "err", message: "password doesn't match" });
       }
     } else {
-      return res.status(200).json({
+      return res.send({
         status: "err",
         message: "No user found.",
       });
     }
   } catch (err) {
-    res.status(500).json({
+    res.send({
       status: "err",
       message:
         err?.message === "data and hash arguments required"
@@ -103,7 +103,6 @@ const login = async (req, res) => {
     });
   }
 };
-
 //
 module.exports = {
   signUpVoter,

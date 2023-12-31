@@ -10,5 +10,9 @@ candidateRouter.route("/add").post(candidateController.addCandidate);
 candidateRouter
   .route("/provide-vote")
   .post(candidateController.addVoteToCandidate);
+//get candidate by ConstituencyId
+candidateRouter
+  .route("/get-candidates/:voter_id")
+  .get(candidateController.getCandidatesByConstituencyId);
 //
 module.exports = candidateRouter;

@@ -11,7 +11,7 @@ const addParty = async (req, res) => {
     //save to db
     await party.save();
     //return response
-    return res.status(200).json({
+    return res.send({
       status: "success",
       message: "You've successfully added a new party.",
     });
@@ -23,8 +23,8 @@ const addParty = async (req, res) => {
 //
 const getAllParty = async (req, res) => {
   try {
-    const allParties = await Party.find({}).toArray();
-    res.status(200).json({ status: "success", data: allParties });
+    const allParties = await Party.find({});
+    res.send({ status: "success", data: allParties });
   } catch (err) {
     //return err
     res.send({ status: "err", message: err });

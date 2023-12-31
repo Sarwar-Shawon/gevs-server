@@ -13,7 +13,7 @@ const addUvc = async (req, res) => {
     //save to db
     await uvc.save();
     //return response
-    return res.status(200).json({
+    return res.send({
       status: "success",
       message: "You've successfully added a new uvc.",
     });
@@ -33,12 +33,12 @@ const getUvc = async (req, res) => {
     const uvc = await Uvc.findOne({ UVC: req.query.UVC });
     console.log("uvc:::", uvc);
     if (uvc) {
-      return res.status(200).json({
+      return res.send({
         status: "success",
         data: uvc,
       });
     }
-    return res.status(200).json({
+    return res.send({
       status: "not found",
       message: "uvc not found",
     });

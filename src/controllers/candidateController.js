@@ -19,12 +19,12 @@ const addCandidate = async (req, res) => {
       party_name: req.body.party_name,
       constituency_id: req.body.constituency_id,
       constituency_name: req.body.constituency_name,
-      vote_count: 0,
+      vote_count: req.body.vote_count || 0,
     });
     //save to db
     await candidate.save();
     //return response
-    return res.status(200).json({
+    return res.send({
       status: "success",
       message: "You've successfully added a new Candidate.",
     });
@@ -47,18 +47,18 @@ const addVoteToCandidate = async (req, res) => {
         if (candidate) {
           candidate.vote_count += 1;
           await candidate.save();
-          return res.status(200).json({
+          return res.send({
             status: "success",
             message: "You've successfully provided your vote..",
           });
         } else {
-          return res.status(200).json({
+          return res.send({
             status: "err",
             message: "No candidates found.",
           });
         }
       } else {
-        return res.status(200).json({
+        return res.send({
           status: "err",
           message:
             "You've already provided your vote so you can't provide any more.",
@@ -72,7 +72,29 @@ const addVoteToCandidate = async (req, res) => {
   }
 };
 //
+const getCandidatesByConstituencyId = async (req, res) => {
+  try {
+    const voter = await Voter.findOne({ voter_id: req.params.voter_id });
+    if (voter) {
+      const candidates = await Candidate.find({
+        constituency_id: new ObjectId(voter.constituency_id),
+      });
+      return res.send({
+        status: "success",
+        data: candidates,
+      });
+    }
+  } catch (err) {
+    //return err
+    // console.error("err", err);
+    res.send({ status: "err", message: err.message });
+  }
+};
+//
+
+//
 module.exports = {
   addCandidate,
   addVoteToCandidate,
+  getCandidatesByConstituencyId,
 };

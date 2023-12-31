@@ -12,7 +12,7 @@ const addConstituency = async (req, res) => {
     //save to db
     await constituency.save();
     //return response
-    return res.status(200).json({
+    return res.send({
       status: "success",
       message: "You've successfully added a new Constituency.",
     });
@@ -30,12 +30,12 @@ const getAllCandidatesByConstituency = async (req, res) => {
     });
     console.log(candidates);
     if (candidates.length > 0) {
-      return res.status(200).json({
+      return res.send({
         status: "success",
         candidates: candidates,
       });
     } else {
-      return res.status(200).json({
+      return res.send({
         status: "success",
         message: "No candidates found for the given constituency name.",
       });
@@ -43,17 +43,24 @@ const getAllCandidatesByConstituency = async (req, res) => {
   } catch (err) {
     //return err
     console.error("err", err);
-    res.send({ status: "err", message: err });
+    res.status(500).send({ status: "err", message: err.message });
   }
 };
 //
 const getAllConstituency = async (req, res) => {
   try {
-    const allConstituency = await Constituency.find({}).toArray();
-    res.status(200).json({ status: "success", data: allConstituency });
+    console.log("getAllConstituency");
+    const allConstituency = await Constituency.find({});
+    console.log("allConstituency", allConstituency);
+    const data = allConstituency.map((constituency) => ({
+      label: constituency.constituency_name,
+      value: constituency._id,
+    }));
+    res.send({ status: "success", data: data });
   } catch (err) {
     //return err
-    res.send({ status: "err", message: err });
+    console.log("err", err);
+    res.status(500).send({ status: "err", message: err });
   }
 };
 //

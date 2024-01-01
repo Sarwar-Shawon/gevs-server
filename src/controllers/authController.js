@@ -41,7 +41,6 @@ const signUpVoter = async (req, res) => {
       UVC: req.body.UVC,
       constituency_id: req.body.constituency_id,
       user_type: req.body.user_type || "voter",
-      provide_vote: req.body.provide_vote || 0,
     });
     //save to db
     await voter.save();
@@ -82,7 +81,11 @@ const login = async (req, res) => {
         return res.send({
           status: "success",
           message: "You've successfully signed in",
-          data: { user_type: voter.user_type, uvc: voter.UVC },
+          data: {
+            user_type: voter.user_type,
+            uvc: voter.UVC,
+            user_name: voter.full_name,
+          },
         });
       } else {
         res.send({ status: "err", message: "password doesn't match" });

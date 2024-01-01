@@ -25,6 +25,8 @@ router.use("/result", resultRouter);
 // settings routes
 const settingstRouter = require("./settingsRoutes");
 router.use("/settings", settingstRouter);
-
+// settings routes
+const voteRouter = require("./voteRoutes");
+router.use("/vote", settingstRouter);
 //
 module.exports = router;

@@ -82,7 +82,7 @@ const login = async (req, res) => {
         return res.send({
           status: "success",
           message: "You've successfully signed in",
-          data: voter.user_type,
+          data: { user_type: voter.user_type, uvc: voter.UVC },
         });
       } else {
         res.send({ status: "err", message: "password doesn't match" });

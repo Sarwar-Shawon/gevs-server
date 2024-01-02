@@ -21,7 +21,7 @@ const candidateRouter = require("./candidateRoutes");
 router.use("/candidate", candidateRouter);
 // get results
 const resultRouter = require("./resultRoutes");
-router.use("/result", resultRouter);
+router.use("/results", resultRouter);
 // settings routes
 const settingstRouter = require("./settingsRoutes");
 router.use("/settings", settingstRouter);

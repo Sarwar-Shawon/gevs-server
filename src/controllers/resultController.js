@@ -1,8 +1,8 @@
 /*
  * @copyRight by md sarwar hoshen.
  */
-const Constituency = require("../models/constituency");
 const Candidate = require("../models/candidate");
+const ElectionSettings = require("../models/electionSettings");
 const { ObjectId } = require("mongodb");
 // add new Constituency
 const getVoteResult = async (req, res) => {
@@ -48,7 +48,12 @@ const getVoteResult = async (req, res) => {
     );
     console.log("winningParty", winningParty);
     //
-    const isElectionOngoing = false;
+    const electionSettings = await ElectionSettings.findOne({
+      settingsId: "Shangri-La-Election",
+    });
+    const isElectionOngoing =
+      electionSettings.status == "ongoing" ? true : false;
+
     const winnerStatus = isElectionOngoing
       ? "Pending"
       : Object.values(partySeats).some((seatCount) => {
@@ -58,15 +63,16 @@ const getVoteResult = async (req, res) => {
       ? winningParty
       : "Hung Parliament";
     console.log("winnerStatus::::", winnerStatus);
-    const output = {
-      status: "Completed",
-      winner: winningParty,
+    const result = {
+      status: isElectionOngoing ? "Pending" : "Completed",
+      winner: winnerStatus,
       seats: Object.entries(partySeats).map(([party, seat]) => ({
         party,
         seat: seat.toString(),
       })),
     };
-    console.log("output", output);
+    console.log("output", result);
+    res.send({ status: "success", data: result });
     // Calculate seats and vote count for each candidate in each constituency
     // const seatsByConstituency = {};
     // Object.entries(candidatesByConstituency).forEach(
@@ -141,7 +147,7 @@ const getVoteResult = async (req, res) => {
     // res.send({ status: "success", result: result });
   } catch (err) {
     console.error("Error calculating election result:", err);
-    res.send({ status: "err", result: err?.message });
+    res.send({ status: "err", message: err?.message });
   }
 };
 module.exports = {

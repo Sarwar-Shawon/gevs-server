@@ -32,7 +32,7 @@ const getAllCandidatesByConstituency = async (req, res) => {
     if (candidates.length > 0) {
       return res.send({
         status: "success",
-        candidates: candidates,
+        data: candidates,
       });
     } else {
       return res.send({

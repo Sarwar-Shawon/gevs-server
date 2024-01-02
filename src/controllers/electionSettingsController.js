@@ -36,6 +36,11 @@ const updateElectionStatus = async (req, res) => {
     if (electionSettings) {
       electionSettings.status = req.body.status;
       await electionSettings.save();
+      return res.send({
+        status: "success",
+        data: { election_status: electionSettings.status },
+        message: "Status has updated successfully.",
+      });
     }
     return res.send({
       status: "not found",

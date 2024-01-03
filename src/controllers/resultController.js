@@ -52,7 +52,10 @@ const getVoteResult = async (req, res) => {
       settingsId: "Shangri-La-Election",
     });
     const isElectionOngoing =
-      electionSettings.status == "ongoing" ? true : false;
+      electionSettings.status == "ongoing" ||
+      electionSettings.status == "not-started"
+        ? true
+        : false;
 
     const winnerStatus = isElectionOngoing
       ? "Pending"

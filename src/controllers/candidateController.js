@@ -73,6 +73,8 @@ const addVoteToCandidate = async (req, res) => {
 //
 const getCandidatesByConstituencyId = async (req, res) => {
   try {
+    console.log("voter_idvoter_idvoter_idvoter_id", req.params.voter_id);
+
     const voter = await Voter.findOne({ voter_id: req.params.voter_id });
     if (voter) {
       const candidates = await Candidate.find({

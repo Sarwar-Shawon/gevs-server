@@ -3,7 +3,11 @@
  */
 const Voter = require("../models/voter");
 const Uvc = require("../models/uvc");
+const jwt = require("jsonwebtoken");
+const UserToken = require("../models/userToken");
 const { validationResult } = require("express-validator");
+const { generateTokens } = require("../utils/generateTokens");
+const { verifyRefreshToken } = require("../utils/verifyRefreshToken");
 const { hashPassword, comparePassword } = require("../utils/encryptPassword");
 //to register new voter
 const signUpVoter = async (req, res) => {
@@ -78,6 +82,7 @@ const login = async (req, res) => {
       );
       console.log("matchPass", matchPass);
       if (matchPass) {
+        const { accessToken, refreshToken } = await generateTokens(voter);
         return res.send({
           status: "success",
           message: "You've successfully signed in",
@@ -85,6 +90,8 @@ const login = async (req, res) => {
             user_type: voter.user_type,
             uvc: voter.UVC,
             user_name: voter.full_name,
+            accessToken,
+            refreshToken,
           },
         });
       } else {
@@ -106,8 +113,48 @@ const login = async (req, res) => {
     });
   }
 };
+// to sign in
+const logout = async (req, res) => {
+  try {
+    const userToken = await UserToken.findOne({ token: req.body.refreshToken });
+    if (!userToken)
+      return res
+        .status(200)
+        .send({ status: "success", message: "Logged Out Sucessfully" });
+    await userToken.deleteOne();
+    res
+      .status(200)
+      .send({ status: "success", message: "Logged Out Sucessfully" });
+  } catch (err) {
+    console.log(err);
+    res.send({ status: "err", message: "Internal Server Error" });
+  }
+};
+//
+const CreateNewAccessToken = async (req, res) => {
+  console.log("req.body.refreshToken", req.body.refreshToken);
+  try {
+    const tokenDetails = await verifyRefreshToken(req.body.refreshToken);
+    console.log("tokenDetails", tokenDetails);
+    const payload = { _id: tokenDetails._id, roles: tokenDetails.roles };
+    const accessToken = jwt.sign(
+      payload,
+      process.env.ACCESS_TOKEN_PRIVATE_KEY,
+      {
+        expiresIn: "14m",
+      }
+    );
+    res.send({
+      status: "success",
+      accessToken,
+      message: "Access token created successfully",
+    });
+  } catch (err) {}
+};
 //
 module.exports = {
   signUpVoter,
   login,
+  logout,
+  CreateNewAccessToken,
 };

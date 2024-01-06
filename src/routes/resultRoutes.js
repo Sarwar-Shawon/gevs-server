@@ -8,4 +8,5 @@ const { auth } = require("../middleware/auth");
 
 //
 resultRouter.route("/").get(auth, resultController.getVoteResult);
+resultRouter.route("/withouttoken").get(resultController.getVoteResult);
 module.exports = resultRouter;

@@ -35,7 +35,6 @@ const signUpVoter = async (req, res) => {
     }
     //hash password
     const hash_password = await hashPassword(req.body.password);
-    console.log("hash_password", hash_password);
     //
     const voter = new Voter({
       voter_id: req.body.voter_id,

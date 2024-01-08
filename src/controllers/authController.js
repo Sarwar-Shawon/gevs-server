@@ -67,10 +67,10 @@ const signUpVoter = async (req, res) => {
 // to sign in
 const login = async (req, res) => {
   try {
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //   return res.status(422).json({ errors: errors.array() });
-    // }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
     // console.log(req.body);
     const voter = await Voter.findOne({ voter_id: req.body.voter_id });
     // console.log("voter::", voter);

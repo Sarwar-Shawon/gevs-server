@@ -4,7 +4,11 @@
 const { check } = require("express-validator");
 //login Validator
 const loginValidator = [
-  check("voter_id").notEmpty().withMessage("Voter Id is required"),
+  check("voter_id")
+    .notEmpty()
+    .withMessage("Voter Id is required")
+    .isEmail()
+    .withMessage("Invalid email format"),
   check("password").notEmpty().withMessage("Password is required"),
 ];
 //register Validator

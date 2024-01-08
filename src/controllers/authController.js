@@ -14,10 +14,15 @@ const signUpVoter = async (req, res) => {
   try {
     console.log("params:", req.body);
     //check uvc is already used or not
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //   return res.status(422).json({ errors: errors.array() });
-    // }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      let err_msg = "";
+      errors.array().map((item, index) => {
+        err_msg += item.msg;
+        if (index != errors.array().length - 1) err_msg += "\n";
+      });
+      return res.status(422).json({ errors: err_msg });
+    }
     //
     const uvc = await Uvc.findOne({ UVC: req.body.UVC });
     if (!uvc) {
@@ -69,7 +74,12 @@ const login = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
+      let err_msg = "";
+      errors.array().map((item, index) => {
+        err_msg += item.msg;
+        if (index != errors.array().length - 1) err_msg += "\n";
+      });
+      return res.send({ status: "error", message: err_msg });
     }
     // console.log(req.body);
     const voter = await Voter.findOne({ voter_id: req.body.voter_id });

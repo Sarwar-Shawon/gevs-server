@@ -24,8 +24,15 @@ const registerValidator = [
   check("UVC").notEmpty().withMessage("UVC is required"),
   check("constituency_id").notEmpty().withMessage("Constituency is required"),
 ];
+//voteValidator Validator
+const voteValidator = [
+  check("voter_id").notEmpty().withMessage("Voter id is required"),
+  check("uvc").notEmpty().withMessage("Uvc is required"),
+  check("candidate_id").notEmpty().withMessage("Candidate is required"),
+];
 //
 module.exports = {
   loginValidator,
   registerValidator,
+  voteValidator,
 };

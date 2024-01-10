@@ -2,10 +2,19 @@
  * @copyRight by md sarwar hoshen.
  */
 const Vote = require("../models/vote");
+const { validationResult } = require("express-validator");
 // add new Vote
 const addVote = async (req, res) => {
   try {
-    // console.log("req.body::", req.body);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      let err_msg = "";
+      errors.array().map((item, index) => {
+        err_msg += item.msg;
+        if (index != errors.array().length - 1) err_msg += "\n";
+      });
+      return res.send({ status: "error", message: err_msg });
+    }
     const vote = new Vote({
       voter_id: req.body.voter_id,
       uvc: req.body.uvc,
@@ -31,6 +40,9 @@ const addVote = async (req, res) => {
 const getVote = async (req, res) => {
   try {
     console.log("req.query::", req.query.voter_id);
+    if (!req.query.voter_id) {
+      return res.send({ status: "error", message: "voter id required." });
+    }
     const vote = await Vote.findOne({
       voter_id: req.query.voter_id,
     });

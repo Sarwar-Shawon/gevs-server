@@ -104,7 +104,10 @@ const login = async (req, res) => {
           },
         });
       } else {
-        res.send({ status: "err", message: "password doesn't match" });
+        res.send({
+          status: "err",
+          message: "username or password doesn't match",
+        });
       }
     } else {
       return res.send({

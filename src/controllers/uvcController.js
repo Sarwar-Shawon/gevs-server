@@ -5,7 +5,6 @@ const Uvc = require("../models/uvc");
 // add new uvc code
 const addUvc = async (req, res) => {
   try {
-    console.log("req.body::", req.body);
     const uvc = new Uvc({
       UVC: req.body.UVC,
       used: req.body.used,
@@ -31,7 +30,6 @@ const addUvc = async (req, res) => {
 const getUvc = async (req, res) => {
   try {
     const uvc = await Uvc.findOne({ UVC: req.query.UVC });
-    console.log("uvc:::", uvc);
     if (uvc) {
       return res.send({
         status: "success",

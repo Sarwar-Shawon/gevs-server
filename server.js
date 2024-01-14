@@ -21,5 +21,5 @@ app.use((_, res) => {
 mongoConnection();
 //
 app.listen(process.env.PORT, (req, res) => {
-  console.log(`Server is listening on port ${process.env.PORT}`);
+  // console.log(`Server is listening on port ${process.env.PORT}`);
 });

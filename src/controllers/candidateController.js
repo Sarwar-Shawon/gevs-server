@@ -8,7 +8,6 @@ const { ObjectId } = require("mongodb");
 // add new Candidate code
 const addCandidate = async (req, res) => {
   try {
-    console.log("req.body::", req.body);
     const candidate = new Candidate({
       //   canid: {
       //     type: Number,
@@ -73,7 +72,6 @@ const addVoteToCandidate = async (req, res) => {
 //
 const getCandidatesByConstituencyId = async (req, res) => {
   try {
-    console.log("voter_idvoter_idvoter_idvoter_id", req.params.voter_id);
 
     const voter = await Voter.findOne({ voter_id: req.params.voter_id });
     if (voter) {

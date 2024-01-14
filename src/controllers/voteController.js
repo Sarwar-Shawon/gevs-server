@@ -39,7 +39,6 @@ const addVote = async (req, res) => {
 // get vote
 const getVote = async (req, res) => {
   try {
-    console.log("req.query::", req.query.voter_id);
     if (!req.query.voter_id) {
       return res.send({ status: "error", message: "voter id required." });
     }

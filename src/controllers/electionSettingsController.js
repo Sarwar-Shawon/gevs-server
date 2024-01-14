@@ -5,11 +5,10 @@ const ElectionSettings = require("../models/electionSettings");
 // get election status
 const getElectionStatus = async (req, res) => {
   try {
-    console.log("req.query", req.query);
     const electionSettings = await ElectionSettings.findOne({
       settingsId: req.query.settingsId,
     });
-    console.log("electionSettings:::", electionSettings);
+    // console.log("electionSettings:::", electionSettings);
     if (electionSettings) {
       return res.send({
         status: "success",
@@ -32,7 +31,6 @@ const updateElectionStatus = async (req, res) => {
     const electionSettings = await ElectionSettings.findOne({
       settingsId: req.body.settingsId,
     });
-    console.log("electionSettings:::", electionSettings);
     if (electionSettings) {
       electionSettings.status = req.body.status;
       await electionSettings.save();

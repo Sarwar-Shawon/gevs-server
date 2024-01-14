@@ -12,7 +12,6 @@ const { hashPassword, comparePassword } = require("../utils/encryptPassword");
 //to register new voter
 const signUpVoter = async (req, res) => {
   try {
-    console.log("params:", req.body);
     //check uvc is already used or not
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -89,7 +88,6 @@ const login = async (req, res) => {
         req.body.password,
         voter.password
       );
-      console.log("matchPass", matchPass);
       if (matchPass) {
         const { accessToken, refreshToken } = await generateTokens(voter);
         return res.send({
@@ -138,16 +136,14 @@ const logout = async (req, res) => {
       .status(200)
       .send({ status: "success", message: "Logged Out Sucessfully" });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     res.send({ status: "err", message: "Internal Server Error" });
   }
 };
 //
 const CreateNewAccessToken = async (req, res) => {
-  console.log("req.body.refreshToken", req.body.refreshToken);
   try {
     const tokenDetails = await verifyRefreshToken(req.body.refreshToken);
-    console.log("tokenDetails", tokenDetails);
     const payload = { _id: tokenDetails._id, roles: tokenDetails.roles };
     const accessToken = jwt.sign(
       payload,

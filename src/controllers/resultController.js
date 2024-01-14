@@ -31,17 +31,12 @@ const getVoteResult = async (req, res) => {
         }
       }
     });
-    console.log(
-      "winnerCandidatesByConstituency",
-      winnerCandidatesByConstituency
-    );
     // calculate party seats
     const partySeats = {};
     Object.values(winnerCandidatesByConstituency).forEach((winner) => {
       const { party } = winner;
       partySeats[party] = (partySeats[party] || 0) + 1;
     });
-    // console.log("partySeats", partySeats);
     //calculate total seats
     const totalSeats = Object.values(partySeats).reduce(
       (total, seats) => total + seats,
@@ -50,13 +45,10 @@ const getVoteResult = async (req, res) => {
     const maxSeats = Math.max(...Object.values(partySeats));
     let hung_parliament = false;
     if (maxSeats / totalSeats <= 0.5) hung_parliament = true;
-    // console.log("totalSeats:::", totalSeats);
-    // console.log("maxSeats:::", maxSeats);
     //calculate winning party
     const winningParty = Object.keys(partySeats).reduce((a, b) =>
       partySeats[a] > partySeats[b] ? a : b
     );
-    // console.log("winningParty", winningParty);
     //
     const electionSettings = await ElectionSettings.findOne({
       settingsId: "Shangri-La-Election",

@@ -24,11 +24,10 @@ const addConstituency = async (req, res) => {
 // get all Candidates by constituency
 const getAllCandidatesByConstituency = async (req, res) => {
   try {
-    console.log("req.body::", req.params);
+    // console.log("req.body::", req.params);
     const candidates = await Candidate.find({
       constituency_name: req.params.constituency_name,
     });
-    console.log(candidates);
     if (candidates.length > 0) {
       return res.send({
         status: "success",
@@ -49,9 +48,7 @@ const getAllCandidatesByConstituency = async (req, res) => {
 //
 const getAllConstituency = async (req, res) => {
   try {
-    console.log("getAllConstituency");
     const allConstituency = await Constituency.find({});
-    console.log("allConstituency", allConstituency);
     const data = allConstituency.map((constituency) => ({
       label: constituency.constituency_name,
       value: constituency._id,
@@ -59,7 +56,7 @@ const getAllConstituency = async (req, res) => {
     res.send({ status: "success", data: data });
   } catch (err) {
     //return err
-    console.log("err", err);
+    // console.log("err", err);
     res.status(500).send({ status: "err", message: err });
   }
 };
